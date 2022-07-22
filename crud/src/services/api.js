@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // URL da nossa api
-const base = 'http://localhost:3030/departamentos';
+const baseURL = 'http://localhost:3030';
 
 const api = axios.create({
     baseURL
