@@ -11,8 +11,9 @@ function App() {
     <>
       <BrowserRouter>
         <Menu/>
-        
-        <RouterNavigation/>
+        <div className='container'>
+          <RouterNavigation/>
+        </div>
       </BrowserRouter>
      
    

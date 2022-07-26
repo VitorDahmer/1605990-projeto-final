@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import getDepartamentos from '../../services/departamentos';
+import {Link} from 'react-router-dom';
 
 // import { Container } from './styles';
 
@@ -21,8 +22,17 @@ function ListaDepartamentos() {
 
 
   return (<>
+    <div className='d-flex justify-content-between mt-3'>
+      <h3 >Departamentos</h3>
+      <Link 
+        to='/departamentos/new' 
+        className='btn btn-secondary'>
+          <i className='bi bi-plus'/>
+          Novo
+      </Link>
+    </div>
     
-    <h3 className='mt-3'>Departamentos</h3>
+    
     
     <table className='table table-striped'>
         <thead>
