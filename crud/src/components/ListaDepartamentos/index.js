@@ -43,6 +43,17 @@ function ListaDepartamentos() {
           </tr>
         </thead>
         <tbody>
+        {!departamentos &&
+          <tr>
+            <td colSpan='3'>
+              <div className='d-flex justify-content-center'>
+                <div className='spinner-border text-warning'>
+                  <span className='visually-hidden'>Loading...</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+          }
           {departamentos && departamentos.map(d=>{
             return(
               <tr key={d.id_departamento}>
