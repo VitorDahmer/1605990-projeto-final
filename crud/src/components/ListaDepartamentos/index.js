@@ -1,20 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import getDepartamentos from '../../services/departamentos';
 import {Link} from 'react-router-dom';
+import deleteDepartamento from '../../services/deleteDepartamento';
 
 // import { Container } from './styles';
 
 function ListaDepartamentos() {
   const [departamentos, setDepartamentos] = useState();
+  const [showLoader, setShowLoader]= useState('d-none');
+  const [desabledButton, setDesabledButton]= useState(false);
 
   async function loadDepartamentos() {
     setDepartamentos(await getDepartamentos())
   };
 
   useEffect(()=>{
-    loadDepartamentos()
-    
+    loadDepartamentos() 
   }, []);
+
+  useEffect(()=>{
+    setShowLoader('d-none')
+    setDesabledButton(false)
+  }, [departamentos]);
 
   console.log(departamentos);
 
@@ -64,7 +71,19 @@ function ListaDepartamentos() {
                         <button className='btn btn-outline-warning'>
                             <i className='bi bi-pencil-fill'/>Editar
                         </button>
-                        <button className='btn btn-outline-danger'>
+                        <button className='btn btn-outline-danger'
+                        disabled={desabledButton}
+                        onClick={() => {
+                          setShowLoader('d-block')
+                          setDesabledButton(true)
+                          deleteDepartamento({idDel: d.id_departamento,
+                          callback: ()=>{
+                            loadDepartamentos()
+                           
+                          }
+                          })                 
+                          }}>
+                          <span className={`spinner-border spinner-border-sm ${showLoader} `} />
                             <i className="bi bi-trash3-fill"/>Excluir
                         </button>
                     </div>
