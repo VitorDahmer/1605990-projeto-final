@@ -1,20 +1,44 @@
 import React, {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import getDepartamentoById from '../../services/getDepartamentoById';
 import postDepartamentos from '../../services/postDepartamentos';
+import putDepartamento from '../../services/putDepartamento';
 
 // import { Container } from './styles';
 
 function CadastroDepartamento() {
+    const {idDepartamento} = useParams()
+    const [departamento, setDepartamento] = useState();
     const [nome, setNome] = useState('')
     const [sigla, setSigla] = useState('')
     const [showError, setShowError] = useState('d-none');
     const [errorMessage, setErrorMessage] = useState('');
 
     const navigate = useNavigate();
+    const titulo = idDepartamento ? 'Atualização' : 'Cadastro';
+
+    // Caso seja uma edição de departamento
+    async function getDepto(idDepartamento){
+        setDepartamento(await getDepartamentoById(idDepartamento));
+    }
+    useEffect(()=>{
+        if (idDepartamento) {
+            getDepto(idDepartamento)
+            
+        }
+    }, [])
+
+    useEffect(()=>{
+        if(departamento) {
+            setNome(departamento[0].nome);
+            setSigla(departamento[0].sigla);
+        }
+        
+    },[departamento])
 
   return <>
     <div>
-        <h3 className='mt-3'>Cadastro de Departamento</h3>
+        <h3 className='mt-3'>{titulo} de Departamento</h3>
         <form className='row'>
             <div className='col-md-10 col-sm-6 col-12'>
                 <div className='form-floating'>
@@ -59,13 +83,22 @@ function CadastroDepartamento() {
                         setErrorMessage('Preencha uma sigla válida!')
                         return;
                     }
-                    postDepartamentos({
-                        nome,
-                        sigla
-                    })
+                    if(departamento){
+                        putDepartamento({
+                            idDepartamento,
+                            nome,
+                            sigla
+                        })
+                    } else{
+                        postDepartamentos({
+                            nome,
+                            sigla
+                        }) 
+                    }
+                   
                     navigate('/departamentos');
                 }}
-                ><i className='bi bi-save'/>Salvar</button>
+                ><i className='bi bi-save'/> Salvar</button>
             </div>
         </div>
     </div>

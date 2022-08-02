@@ -68,9 +68,10 @@ function ListaDepartamentos() {
               <td>{d.sigla}</td>
               <td>
                   <div className='d-flex justify-content-evenly'>
-                        <button className='btn btn-outline-warning'>
+                        <Link className='btn btn-outline-warning'
+                        to={`/departamentos/edit/${d.id_departamento}`}>
                             <i className='bi bi-pencil-fill'/>Editar
-                        </button>
+                        </Link>
                         <button className='btn btn-outline-danger'
                         disabled={desabledButton}
                         onClick={() => {
